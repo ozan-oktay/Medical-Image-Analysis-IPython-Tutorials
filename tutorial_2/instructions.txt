@@ -1,0 +1,9 @@
+(1) Download the latest version of SimpleITK - brach STRAW not the master branch
+$ git clone -b "STRAW" --single-branch "https://github.com/blowekamp/SimpleITK.git"
+
+(2) Perform compilation with Superbuild - this downloads ITK and compiles it. 
+
+(3) Or you can use the precompiled libraries
+"/vol/bitbucket/oo2113/SimpleITK/Build/SimpleITK-build/Wrapping"
+"/vol/bitbucket/oo2113/SimpleITK/Build/SimpleITK-build/lib"
+which should be added into your $PYTHONPATH

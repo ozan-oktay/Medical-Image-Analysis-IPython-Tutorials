@@ -1,0 +1,6 @@
+pip install -U scikit-learn
+
+or
+
+pip install --user --install-option="--prefix=" -U scikit-learn (The --user flag ask pip to install scikit-learn in the $HOME/.local folder)
+
