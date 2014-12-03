@@ -1,0 +1,7 @@
+# Python
+*.py[cod]
+.ipynb_*
+
+# Emacs
+*~
+.\#*
