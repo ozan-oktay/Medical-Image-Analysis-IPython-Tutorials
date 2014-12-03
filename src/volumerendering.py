@@ -6,6 +6,10 @@
 import SimpleITK as sitk
 import vtk
 import numpy as np
+import math
+from math import cos, sin
+
+from IPython import display
 
 from vtk.util.vtkConstants import *
 
@@ -90,8 +94,36 @@ def volumeRender(img, tf=[],spacing=[1.0,1.0,1.0]):
     
     return [vol]
 
+def move(actor, matrix):
+    transfo_mat = vtk.vtkMatrix4x4()
+    for i in range(0,4):
+        for j in range(0,4):
+            transfo_mat.SetElement(i,j, matrix[i,j])        
+    actor.SetUserMatrix(transfo_mat)
+ 
+def Rx( theta ):
+    theta = float(theta)/180.0*math.pi
+    return np.array([[ 1,          0,           0, 0],
+                     [ 0, cos(theta), -sin(theta), 0],
+                     [ 0, sin(theta),  cos(theta), 0],
+                     [ 0,          0,           0, 1]],dtype='float32')
+ 
+def Ry( theta ):
+    theta = float(theta)/180.0*math.pi
+    return np.array([[  cos(theta), 0, sin(theta), 0],
+                     [           0, 1,          0, 0],
+                     [ -sin(theta), 0, cos(theta), 0],
+                     [           0, 0,          0, 1]],dtype='float32')
+ 
+def Rz( theta ):
+    theta = float(theta)/180.0*math.pi
+    return np.array([[ cos(theta), -sin(theta), 0, 0],
+                     [ sin(theta),  cos(theta), 0, 0],
+                     [          0,           0, 1, 0],
+                     [          0,           0, 0, 1]],dtype='float32')
 
-def vtk_basic( actors ):
+
+def vtk_basic( actors, embed=False, magnification=1.0 ):
     """
     Create a window, renderer, interactor, add the actors and start the thing
     
@@ -116,12 +148,28 @@ def vtk_basic( actors ):
     iren.SetRenderWindow(renWin)
 
     for a in actors:
+
+        move( a, np.dot(Ry(-180),Rx(-180)) )
+        
         # assign actor to the renderer
         ren.AddActor(a )
     
     # render
     renWin.Render()
-   
-    # enable user interface interactor
-    iren.Initialize()
-    iren.Start()
+
+    if embed:
+        renWin.SetSize(300,300)
+        grabber = vtk.vtkWindowToImageFilter()
+        grabber.SetInput( renWin )
+        grabber.SetMagnification( magnification )
+        grabber.Update()
+        
+        writer = vtk.vtkPNGWriter()
+        writer.SetInput( grabber.GetOutput() )
+        writer.SetFileName( "screenshot.png" )
+        writer.Write()
+        return display.Image("screenshot.png")
+    else:   
+        # enable user interface interactor
+        iren.Initialize()
+        iren.Start()
