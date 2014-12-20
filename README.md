@@ -47,4 +47,4 @@ please send an email to the authors:
 Ozan Oktay (o.oktay13@imperial.ac.uk)       
 <a href="http://www.doc.ic.ac.uk/~kpk09/">Kevin Keraudren</a> (kevin.keraudren10@imperial.ac.uk)
 
-The following <a href="http://kevin-keraudren.blogspot.co.uk/">blog post</a> provides a short introduction to these tutorials.
+The following <a href="http://kevin-keraudren.blogspot.co.uk/2014/12/medical-image-analysis-ipython-tutorials.html">blog post</a> provides a short introduction to these tutorials.
